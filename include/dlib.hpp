@@ -20,6 +20,7 @@ struct symbol<T(Args...)> {
 
 class library {
 public:
+    library();
     library(const std::filesystem::path& lib);
     ~library();
     library(library&& other);

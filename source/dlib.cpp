@@ -3,6 +3,11 @@
 
 namespace dl {
 
+library::library():
+    handle_(nullptr)
+{
+}
+
 library::library(const std::filesystem::path &lib):
     handle_(nullptr)
 {
