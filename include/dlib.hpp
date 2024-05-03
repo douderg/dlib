@@ -3,7 +3,7 @@
 #if _WIN32
 #include <Windows.h>    
 #else
-#include <dlsym.h>
+#include <dlfcn.h>
 #endif
 
 #include <filesystem>
@@ -33,7 +33,7 @@ public:
 #if _WIN32
         return symbol<T>::type(GetProcAddress(handle_, sym.c_str()));
 #else
-        return symbol<T>::type(dlsym(handle_, sym.c_str()));
+        return typename symbol<T>::type(dlsym(handle_, sym.c_str()));
 #endif
     }
 private:

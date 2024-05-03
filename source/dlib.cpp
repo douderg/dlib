@@ -1,4 +1,5 @@
 #include <dlib.hpp>
+#include <stdexcept>
 
 namespace dl {
 
@@ -8,8 +9,12 @@ library::library(const std::filesystem::path &lib):
 #if _WIN32
     handle_ = LoadLibraryW(lib.wstring().c_str());
 #else
-    handle_ = dlopen(lib.string().c_string(), RTLD_NOW);
+    auto path=lib.string();
+    handle_ = dlopen(path.c_str(), RTLD_NOW);
 #endif
+    if (!handle_) {
+        throw std::runtime_error("failed to load " + lib.string());
+    }
 }
 
 library::~library()
@@ -35,7 +40,7 @@ library &library::operator=(library &&other)
 #if _WIN32
         FreeLibrary(handle_);
 #else
-        dlclose(handle_;)
+        dlclose(handle_);
 #endif
     }
     handle_ = other.handle_;
